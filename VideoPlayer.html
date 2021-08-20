@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+
+<head>
+    <title>Video Player</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+
+        button {
+            border-radius: 15px;
+            color: dimgrey;
+            border-color: transparent;
+            background: transparent;
+        }
+
+        button:hover {
+            opacity: 50%;
+            background: whitesmoke;
+            color: #202020;
+        }
+
+        .bigbox {
+            background: url("Media/background-vid.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        h1 {
+            font-family: Sofia;
+            font-size: 65px;
+            color: white;
+            font-weight: lighter;
+            text-shadow: 3px 3px 10px black;
+            padding-bottom: -50rem;
+        }
+
+    </style>
+</head>
+
+<body class="d-flex align-items-center min-vh-100 bigbox">
+    <div class="col-sm-12">
+        <h1 align='center' class="py-5">The Jail Break Riddle</h1>
+        <div>
+            <video id="vid" class="col-sm-6 mx-auto d-block py-3">
+                <source src="Media/JailBreakRiddle.mp4" type=video/mp4>
+            </video>
+            <div align="center">
+                <button style="font-size:30px;padding-right:9px;" ng-click="Backward()">
+                    <i class="fa fa-backward"></i>
+                </button>
+                <button style="font-size:30px;" ng-click="PlayPause()">
+                    <i id="pp" class="fa fa-play"></i>
+                </button>
+                <button style="font-size:30px;padding-left:9px;" ng-click="Forward()">
+                    <i class="fa fa-forward"></i>
+                </button>
+                <button style="font-size:30px;" ng-click="Stop()">
+                    <i class="fa fa-stop"></i>
+                </button>
+                <button style="font-size:30px;" ng-click="MuteUnmute()">
+                    <i id="mu" class="fa fa-volume-up"></i>
+                </button>
+                <!-- <button style="font-size:30px;" ng-click="Unmute()">
+                    <i class="fa fa-volume-up"></i>
+                </button> -->
+                <button style="font-size:30px;" ng-click="Half()">
+                    <b>0.5x</b>
+                </button>
+                <button style="font-size:30px;" ng-click="One()">
+                    <b>1x</b>
+                </button>
+                <button style="font-size:30px;" ng-click="Two()">
+                    <b>2x</b>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        var obj = angular.module("myApp", []);
+        obj.controller("myCtrl", ['$scope', '$document', function ($scope, $document) {
+            var video = document.getElementById("vid");
+            var flag1 = true;
+            var flag2 = true;
+            var pp_button = document.getElementById("pp");
+            var mu_button = document.getElementById("mu");
+            $scope.PlayPause = function () {
+                if (flag1 == true) {
+                    video.play();
+                    flag1 = false;
+                    pp_button.setAttribute("class", "fa fa-pause");
+                }
+                else {
+                    video.pause();
+                    flag1 = true;
+                    pp_button.setAttribute("class", "fa fa-play");
+                }
+            }
+            $scope.Forward = function () {
+                video.currentTime += 5;
+            }
+            $scope.Backward = function () {
+                video.currentTime -= 5;
+            }
+            $scope.Stop = function () {
+                video.currentTime = 0;
+                video.pause();
+                flag1 = true;
+                pp_button.setAttribute("class", "fa fa-play");
+            }
+            $scope.MuteUnmute = function () {
+                if (flag2 == true) {
+                    video.volume = 0;
+                    flag2 = false;
+                    mu_button.setAttribute("class", "fa fa-volume-off");
+                }
+                else {
+                    video.volume = 1;
+                    flag2 = true;
+                    mu_button.setAttribute("class", "fa fa-volume-up");
+                }
+            }
+            $scope.One = function () {
+                video.playbackRate = 1;
+            }
+            $scope.Half = function () {
+                video.playbackRate = 0.5;
+            }
+            $scope.Two = function () {
+                video.playbackRate = 2;
+            }
+        }]);
+    </script>
+
+</body>
+</html>
